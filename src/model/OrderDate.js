@@ -11,10 +11,10 @@ class OrderDate {
 
   #validate(date) {
     if (typeof date !== "number" || Number.isNaN(date)) {
-      throw new Error(ERROR_MESSAGES.NOT_NUMBER);
+      throw new Error(ERROR_MESSAGES.예약_날짜_예외);
     }
     if (date < EVENT_CONSTANT.START_DAY || date > EVENT_CONSTANT.END_DAY) {
-      throw new Error(ERROR_MESSAGES.OUT_OF_DATE);
+      throw new Error(ERROR_MESSAGES.예약_날짜_예외);
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Console } from "@woowacourse/mission-utils";
 
 const InputView = {
-  async readDate() {
+  async readInput() {
     const input = await Console.readLineAsync();
     return input;
   },

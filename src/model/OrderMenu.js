@@ -3,8 +3,6 @@ import { ERROR_MESSAGES } from "../utils/Message";
 import RestaurantMenu from "./RestaurantMenu";
 
 class OrderMenu {
-  #menu;
-
   constructor(menu) {
     this.menuData = menu;
     this.orderItems = {};
@@ -15,11 +13,11 @@ class OrderMenu {
     const menuList = menuString.split(",");
     menuList.forEach((order) => {
       const [menuName, menuCount] = order.split("-");
-      this.validate(menuName, Number(menuCount));
+      this.#validate(menuName, Number(menuCount));
     });
   }
 
-  validate(menuName, menuCount) {
+  #validate(menuName, menuCount) {
     if (
       !menuName ||
       Number.isNaN(menuCount) ||
