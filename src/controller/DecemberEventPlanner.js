@@ -14,7 +14,20 @@ class EventPlanner {
     const { date, menu } = await this.receiveOrder(); // 주문 받기
     const menuList = menu.getOrderMenuList();
     this.displayOrderInfo(menuList); // 주문 내역 보여주기
-    this.displayReceivedEvent(menuList, date); // 이벤트 받은 내역 보여주기
+    const benefit = this.displayReceivedEvent(menuList, date); // 이벤트 받은 내역 보여주기
+    this.displayMoney(menuList, benefit); // 결과 출력하기
+    this.displayBadge(menuList, benefit);
+  }
+
+  // 배지 출력하기
+  displayBadge(menuList, benefit) {
+    OutputView.printBadge(benefit.getBadge(menuList));
+  }
+
+  // 금액 출력
+  displayMoney(menuList, benefit) {
+    OutputView.printTotalDiscout(benefit.getTotalBenefitDiscount());
+    OutputView.printPaymentAmount(benefit.getPaymentAmount(menuList));
   }
 
   // 이벤트 받은 내역
@@ -22,7 +35,8 @@ class EventPlanner {
     const benefit = new BenefitEvent(menuList, date);
     const benefitList = benefit.getBenefitList();
     OutputView.printGiveawayEvent(benefitList);
-    OutputView.printBenefits(benefit.getBenefitList());
+    OutputView.printBenefits(benefitList);
+    return benefit;
   }
 
   // 주문 내역 출력

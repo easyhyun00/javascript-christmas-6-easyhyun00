@@ -37,6 +37,18 @@ const OutputView = {
       });
     });
   },
+  printTotalDiscout(discount) {
+    Console.print("<총혜택 금액>");
+    Console.print(this.formatPrice(discount));
+  },
+  printPaymentAmount(payment) {
+    Console.print("<할인 후 예상 결제 금액>");
+    Console.print(this.formatPrice(payment));
+  },
+  printBadge(badge) {
+    Console.print("<12월 이벤트 배지>");
+    Console.print(badge);
+  },
   formatPrice(number) {
     return `${number.toLocaleString("ko-KR")}원`;
   },

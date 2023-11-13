@@ -65,6 +65,43 @@ class BenefitEvent {
   getBenefitList() {
     return this.#eventList;
   }
+
+  getTotalBenefitDiscount() {
+    let totalDiscount = 0;
+    this.#eventList.forEach((discount) => {
+      const discountValue = Object.values(discount)[0];
+      totalDiscount += discountValue;
+    });
+    return totalDiscount;
+  }
+
+  getPaymentDiscout() {
+    let totalDiscount = 0;
+    this.#eventList.forEach((discount) => {
+      const discountType = Object.keys(discount)[0];
+      const discountValue = Object.values(discount)[0];
+      if (discountType !== "증정 이벤트") totalDiscount += discountValue;
+    });
+    return totalDiscount;
+  }
+
+  getPaymentAmount(menuList) {
+    return RestaurantMenu.calculateTotalPrice(menuList) + this.getPaymentDiscout();
+  }
+
+  getBadge(menuList) {
+    const payment = this.getPaymentAmount(menuList);
+    switch (true) {
+      case payment >= 20000:
+        return "산타";
+      case payment >= 10000:
+        return "트리";
+      case payment >= 5000:
+        return "별";
+      default:
+        return "없음";
+    }
+  }
 }
 
 export default BenefitEvent;
