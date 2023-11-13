@@ -42,6 +42,16 @@ const RestaurantMenu = {
         return null;
     }
   },
+
+  countMenuCategory(menuList, category) {
+    return menuList.reduce((acc, item) => {
+      const menuCategory = RestaurantMenu.getMenuCategory(item.name);
+      if (menuCategory === category) {
+        return acc + item.quantity;
+      }
+      return acc;
+    }, 0);
+  },
 };
 
 export default RestaurantMenu;

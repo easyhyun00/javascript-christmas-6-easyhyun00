@@ -4,6 +4,7 @@ import InputView from "../view/InputView";
 import OrderDate from "../model/OrderDate";
 import OrderMenu from "../model/OrderMenu";
 import RestaurantMenu from "../model/RestaurantMenu";
+import BenefitEvent from "../model/BenefitEvent";
 
 class EventPlanner {
   constructor() {}
@@ -13,6 +14,15 @@ class EventPlanner {
     const { date, menu } = await this.receiveOrder(); // 주문 받기
     const menuList = menu.getOrderMenuList();
     this.displayOrderInfo(menuList); // 주문 내역 보여주기
+    this.displayReceivedEvent(menuList, date); // 이벤트 받은 내역 보여주기
+  }
+
+  // 이벤트 받은 내역
+  displayReceivedEvent(menuList, date) {
+    const benefit = new BenefitEvent(menuList, date);
+    const benefitList = benefit.getBenefitList();
+    OutputView.printGiveawayEvent(benefitList);
+    OutputView.printBenefits(benefit.getBenefitList());
   }
 
   // 주문 내역 출력
