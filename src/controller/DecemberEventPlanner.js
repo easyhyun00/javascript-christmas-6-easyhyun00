@@ -3,13 +3,22 @@ import OutputView from "../view/OutputView";
 import InputView from "../view/InputView";
 import OrderDate from "../model/OrderDate";
 import OrderMenu from "../model/OrderMenu";
+import RestaurantMenu from "../model/RestaurantMenu";
 
 class EventPlanner {
   constructor() {}
 
   // 이벤트 시작
   async eventStart() {
-    this.receiveOrder(); // 주문 받기
+    const { date, menu } = await this.receiveOrder(); // 주문 받기
+    const menuList = menu.getOrderMenuList();
+    this.displayOrderInfo(menuList); // 주문 내역 보여주기
+  }
+
+  // 주문 내역 출력
+  displayOrderInfo(menuList) {
+    OutputView.printMenu(menuList); // 메뉴 출력
+    OutputView.printTotalPrice(RestaurantMenu.calculateTotalPrice(menuList));
   }
 
   // 주문 받기
@@ -17,12 +26,13 @@ class EventPlanner {
     OutputView.printMessage("GRETTING");
     const date = await this.receiveOrderOnDate();
     const menu = await this.receiveOrderMenu();
+    return { date, menu };
   }
 
   // 날짜 주문 받기
   async receiveOrderOnDate() {
     OutputView.printMessage("ORDER_DATE");
-    const date = await InputView.readInput();
+    const date = await InputView.readDate();
     OutputView.printResult(date);
     return this.setOrderOnDate(date);
   }
@@ -40,7 +50,7 @@ class EventPlanner {
   // 메뉴 입력 받기
   async receiveOrderMenu() {
     OutputView.printMessage("ORDER_MENU");
-    const menu = await InputView.readInput();
+    const menu = await InputView.readMenu();
     OutputView.printResult(menu);
     return this.setOrderMenu(menu);
   }

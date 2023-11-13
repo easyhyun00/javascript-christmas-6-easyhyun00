@@ -3,9 +3,13 @@ import { ERROR_MESSAGES } from "../utils/Message";
 import RestaurantMenu from "./RestaurantMenu";
 
 class OrderMenu {
+  #menuData;
+
+  #orderItems;
+
   constructor(menu) {
-    this.menuData = menu;
-    this.orderItems = {};
+    this.#menuData = menu;
+    this.#orderItems = {};
     this.#processMenu(menu);
   }
 
@@ -24,7 +28,7 @@ class OrderMenu {
       menuCount < 1 ||
       !RestaurantMenu.isMenuExist(menuName) ||
       this.isOnlyDrink(menuName) ||
-      menuName in this.orderItems ||
+      menuName in this.#orderItems ||
       this.calculateTotalCount() + menuCount > 20
     ) {
       throw new Error(ERROR_MESSAGES.주문_메뉴_예외);
@@ -33,17 +37,25 @@ class OrderMenu {
   }
 
   isOnlyDrink(menuName) {
-    const commaCount = (this.menuData.match(/,/g) || []).length;
+    const commaCount = (this.#menuData.match(/,/g) || []).length;
     const isDrink = menuName in RestaurantMenu.drink;
     return commaCount === 0 && isDrink;
   }
 
   calculateTotalCount() {
-    return Object.values(this.orderItems).reduce((total, qty) => total + qty, 0);
+    return Object.values(this.#orderItems).reduce((total, qty) => total + qty, 0);
   }
 
   addOrder(menuName, menuCount) {
-    this.orderItems[menuName] = menuCount;
+    this.#orderItems[menuName] = menuCount;
+  }
+
+  getOrderMenuList() {
+    const menuList = Object.entries(this.#orderItems).map(([name, quantity]) => ({
+      name,
+      quantity,
+    }));
+    return menuList;
   }
 }
 

@@ -1,3 +1,4 @@
+import { Console } from "@woowacourse/mission-utils";
 import MenuData from "../utils/MenuData";
 
 const RestaurantMenu = {
@@ -13,6 +14,33 @@ const RestaurantMenu = {
       menuName in this.dessert ||
       menuName in this.drink
     );
+  },
+
+  calculateTotalPrice(menuList) {
+    let totalPrice = 0;
+    menuList.forEach((item) => {
+      const { name, quantity } = item;
+      const menuCategory = this.getMenuCategory(name);
+      const menuPrice = MenuData[menuCategory][name];
+      totalPrice += menuPrice * quantity;
+    });
+    return totalPrice;
+  },
+
+  // 메뉴의 카테고리를 가져오는 함수
+  getMenuCategory(menuName) {
+    switch (true) {
+      case menuName in this.appetizer:
+        return "appetizer";
+      case menuName in this.mainCourse:
+        return "mainCourse";
+      case menuName in this.dessert:
+        return "dessert";
+      case menuName in this.drink:
+        return "drink";
+      default:
+        return null;
+    }
   },
 };
 
