@@ -1,4 +1,3 @@
-import { Console } from "@woowacourse/mission-utils";
 import { ERROR_MESSAGES } from "../utils/Message";
 import RestaurantMenu from "./RestaurantMenu";
 

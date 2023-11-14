@@ -1,4 +1,3 @@
-import { Console } from "@woowacourse/mission-utils";
 import MenuData from "../utils/MenuData";
 
 const RestaurantMenu = {
@@ -27,7 +26,6 @@ const RestaurantMenu = {
     return totalPrice;
   },
 
-  // 메뉴의 카테고리를 가져오는 함수
   getMenuCategory(menuName) {
     switch (true) {
       case menuName in this.appetizer:

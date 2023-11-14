@@ -3,11 +3,11 @@ import { EVENT_MESSAGES } from "../utils/Message";
 
 const InputView = {
   async readDate() {
-    const input = await Console.readLineAsync(EVENT_MESSAGES.ORDER_DATE);
+    const input = await Console.readLineAsync(EVENT_MESSAGES.예약_날짜);
     return input;
   },
   async readMenu() {
-    const input = await Console.readLineAsync(EVENT_MESSAGES.ORDER_MENU);
+    const input = await Console.readLineAsync(EVENT_MESSAGES.주문_메뉴);
     return input;
   },
 };

@@ -1,4 +1,3 @@
-import { Console } from "@woowacourse/mission-utils";
 import RestaurantMenu from "./RestaurantMenu";
 import EVENT_CONSTANT from "../utils/Constant";
 
@@ -10,56 +9,50 @@ class BenefitEvent {
     this.#processEvent(menuList, date);
   }
 
-  // 혜택 구하기
   #processEvent(menuList, date) {
     const totalPrice = RestaurantMenu.calculateTotalPrice(menuList);
-    if (totalPrice >= 10000) {
-      this.getChristmasEvent(date); // 크리스마스 디데이 이벤트
-      this.getWeekEvent(menuList, date); // 요일 할인 이벤트
-      this.getSpecialEvent(date); // 특별 할인 이벤트
-      this.getGiveawayEvent(totalPrice); // 증정 이벤트
+    if (totalPrice >= EVENT_CONSTANT.혜택_최소_금액) {
+      this.getChristmasEvent(date);
+      this.getWeekEvent(menuList, date);
+      this.getSpecialEvent(date);
+      this.getGiveawayEvent(totalPrice);
     }
   }
 
-  // 특별 할인 이벤트
   getSpecialEvent(date) {
     if (EVENT_CONSTANT.특별_할인_날짜.includes(date.getDate()))
-      this.#eventList.push({ "특별 할인": -1000 });
+      this.#eventList.push({ "특별 할인": -EVENT_CONSTANT.특별_할인_금액 });
   }
 
-  // 크리스마스 디데이 이벤트
   getChristmasEvent(date) {
-    if (date.getDate() <= 25) {
+    if (date.getDate() <= EVENT_CONSTANT.크리스마스_날짜) {
       const price = date.getChristmasDdayEvent();
       this.#eventList.push({ "크리스마스 디데이 할인": -price });
     }
   }
 
-  // 증정 이벤트
   getGiveawayEvent(totalPrice) {
-    if (totalPrice >= 120000) this.#eventList.push({ "증정 이벤트": -25000 });
+    if (totalPrice >= EVENT_CONSTANT.증정_이벤트_최소_금액)
+      this.#eventList.push({ "증정 이벤트": -EVENT_CONSTANT.증정_이벤트_혜택_금액 });
   }
 
-  // 요일 이벤트
   getWeekEvent(menuList, date) {
     const dayOfWeek = date.getDayOfWeek();
-    if (dayOfWeek === "금" || dayOfWeek === "일") {
+    if (EVENT_CONSTANT.주말.includes(dayOfWeek)) {
       this.getWeekendEvent(menuList);
     } else {
       this.getWeekdayEvent(menuList);
     }
   }
 
-  // 평일 이벤트
   getWeekdayEvent(menuList) {
     const result = RestaurantMenu.countMenuCategory(menuList, "dessert");
-    this.#eventList.push({ "평일 할인": -result * 2023 });
+    this.#eventList.push({ "평일 할인": -result * EVENT_CONSTANT.요일_할인_금액 });
   }
 
-  // 주말 이벤트
   getWeekendEvent(menuList) {
     const result = RestaurantMenu.countMenuCategory(menuList, "mainCourse");
-    this.#eventList.push({ "주말 할인": -result * 2023 });
+    this.#eventList.push({ "주말 할인": -result * EVENT_CONSTANT.요일_할인_금액 });
   }
 
   getBenefitList() {
@@ -75,7 +68,7 @@ class BenefitEvent {
     return totalDiscount;
   }
 
-  getPaymentDiscout() {
+  getPaymentDiscount() {
     let totalDiscount = 0;
     this.#eventList.forEach((discount) => {
       const discountType = Object.keys(discount)[0];
@@ -86,17 +79,17 @@ class BenefitEvent {
   }
 
   getPaymentAmount(menuList) {
-    return RestaurantMenu.calculateTotalPrice(menuList) + this.getPaymentDiscout();
+    return RestaurantMenu.calculateTotalPrice(menuList) + this.getPaymentDiscount();
   }
 
   getBadge(menuList) {
     const payment = this.getPaymentAmount(menuList);
     switch (true) {
-      case payment >= 20000:
+      case payment >= EVENT_CONSTANT.산타_증정_금액:
         return "산타";
-      case payment >= 10000:
+      case payment >= EVENT_CONSTANT.트리_증정_금액:
         return "트리";
-      case payment >= 5000:
+      case payment >= EVENT_CONSTANT.별_증정_금액:
         return "별";
       default:
         return "없음";
