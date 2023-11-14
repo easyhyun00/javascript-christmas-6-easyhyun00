@@ -16,6 +16,9 @@ class OrderDate {
     if (date < EVENT_CONSTANT.첫_날 || date > EVENT_CONSTANT.마지막_날) {
       throw new Error(ERROR_MESSAGES.예약_날짜_예외);
     }
+    if (!Number.isInteger(date)) {
+      throw new Error(ERROR_MESSAGES.예약_날짜_예외);
+    }
   }
 
   getDate() {
