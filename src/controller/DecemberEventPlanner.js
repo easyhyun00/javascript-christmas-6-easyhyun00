@@ -12,11 +12,11 @@ class EventPlanner {
     this.displayOrderInfo(menuList);
     const benefit = this.displayReceivedEvent(menuList, date);
     this.displayMoney(menuList, benefit);
-    this.displayBadge(menuList, benefit);
+    this.displayBadge(benefit);
   }
 
-  displayBadge(menuList, benefit) {
-    OutputView.printBadge(benefit.getBadge(menuList));
+  displayBadge(benefit) {
+    OutputView.printBadge(benefit.getBadge());
   }
 
   displayMoney(menuList, benefit) {

@@ -47,12 +47,12 @@ class BenefitEvent {
 
   getWeekdayEvent(menuList) {
     const result = RestaurantMenu.countMenuCategory(menuList, "dessert");
-    this.#eventList.push({ "평일 할인": -result * EVENT_CONSTANT.요일_할인_금액 });
+    if (result >= 1) this.#eventList.push({ "평일 할인": -result * EVENT_CONSTANT.요일_할인_금액 });
   }
 
   getWeekendEvent(menuList) {
     const result = RestaurantMenu.countMenuCategory(menuList, "mainCourse");
-    this.#eventList.push({ "주말 할인": -result * EVENT_CONSTANT.요일_할인_금액 });
+    if (result >= 1) this.#eventList.push({ "주말 할인": -result * EVENT_CONSTANT.요일_할인_금액 });
   }
 
   getBenefitList() {
@@ -82,8 +82,8 @@ class BenefitEvent {
     return RestaurantMenu.calculateTotalPrice(menuList) + this.getPaymentDiscount();
   }
 
-  getBadge(menuList) {
-    const payment = this.getPaymentAmount(menuList);
+  getBadge() {
+    const payment = -this.getTotalBenefitDiscount();
     switch (true) {
       case payment >= EVENT_CONSTANT.산타_증정_금액:
         return "산타";
