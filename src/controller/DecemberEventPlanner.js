@@ -10,6 +10,7 @@ class EventPlanner {
     const { date, menu } = await this.receiveOrder();
     const menuList = menu.getOrderMenuList();
     this.displayOrderInfo(menuList);
+    OutputView.printPreview(date);
     const benefit = this.displayReceivedEvent(menuList, date);
     this.displayMoney(menuList, benefit);
     this.displayBadge(benefit);

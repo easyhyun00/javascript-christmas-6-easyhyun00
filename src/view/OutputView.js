@@ -8,6 +8,9 @@ const OutputView = {
   printResult(result) {
     Console.print(result);
   },
+  printPreview(date) {
+    Console.print(EVENT_MESSAGES.이벤트_혜택_미리_보기.replace("?", date.getDate()));
+  },
   printMenu(menuList) {
     Console.print("<주문 메뉴>");
     menuList.forEach((item) => {
