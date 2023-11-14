@@ -24,6 +24,7 @@ class OrderMenu {
     if (
       !menuName ||
       Number.isNaN(menuCount) ||
+      !Number.isInteger(menuCount) ||
       menuCount < 1 ||
       !RestaurantMenu.isMenuExist(menuName) ||
       this.isOnlyDrink(menuName) ||
